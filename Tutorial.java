@@ -3,6 +3,9 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 class Tutorial extends Event{
+    private final String startText = String.format("<html>ゲームスタート！ようこそ！<br>まずは名前を変更しましょう！名前の変更をしたら、「決定」ボタンを押してください！</html>");
+    private final String explainText  = String.format("<html><h2>ゲームの進め方</h2><br>1. サイコロを振って、出た目の数だけ盤面を進みます。<br>2. 盤面上のイベントに応じて、クイズやタイピングなどのミニゲームが発生します。<br>3. ミニゲームをクリアすると、単位やお金がもらえます。<br>4. 単位を集めて卒業を目指しましょう！<br>ミニゲームが終わったら、Windowを閉じてください！<br><br>まずは名前を変更しましょう！<br>変更ができたら「決定」ボタンを押してください！</html>");
+
     Tutorial(){
         super("スタート");
     }
@@ -11,16 +14,23 @@ class Tutorial extends Event{
     public void execute(Player player) {
         //eventPanel.removeAll();
         player.tutorialed(); // チュートリアルを受けたフラグを立てる
-        JLabel label = new JLabel(String.format("<html>ゲームスタート！ようこそ！<br>まずは名前を変更しましょう！名前の変更をしたら、「決定」ボタンを押してください！</html>"));
-        label.setBounds(0,0,640, 100);
+
+        // 説明ラベル
+        JLabel explainLabel = new JLabel(explainText);
+        explainLabel.setBounds(50, 0, 500, 200);
+
+        // 名前入力フィールドとボタン
         JLabel nameLabel = new JLabel("プレイヤー名を入力してください:");
-        nameLabel.setBounds(50, 70, 200, 30);
+        nameLabel.setBounds(50, 220, 200, 30);
+
         JTextField inputField = new JTextField(player.getName());
-        inputField.setBounds(50, 225, 200, 30);
+        inputField.setBounds(50, 250, 200, 30);
+
         JLabel statusLabel = new JLabel("");
-        statusLabel.setBounds(50, 260, 500, 30);
+        statusLabel.setBounds(50, 290, 500, 30);
+
         JButton submitButton = new JButton("決定");
-        submitButton.setBounds(300, 225, 100, 30);
+        submitButton.setBounds(300, 250, 100, 30);
         submitButton.addActionListener(e -> {
             String newName = inputField.getText().trim();
             if (!newName.isEmpty()) {
@@ -30,11 +40,13 @@ class Tutorial extends Event{
                 statusLabel.setText("プレイヤー名は空にできません。");
             }
         });
-        eventPanel.add(label);
+
+        // イベントパネルにコンポーネントを追加
         eventPanel.add(nameLabel);
         eventPanel.add(statusLabel);
         eventPanel.add(inputField);
         eventPanel.add(submitButton);
+        eventPanel.add(explainLabel);
         eventPanel.revalidate();
         eventPanel.repaint();
     }
