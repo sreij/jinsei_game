@@ -9,7 +9,7 @@ abstract class Event{
         this.eventName = name;
         eventPanel = new JPanel(null);
         eventPanel.setBackground(Color.WHITE);
-        eventPanel.setBounds((1280-640)/2,(720-480)/2,640,480);
+        eventPanel.setSize(640,480);
     }
 
     //マスにイベントの名前を返せるようにするためのゲッターメソッド

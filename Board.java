@@ -13,9 +13,9 @@ class Board{
         event[1] = new Typing();          //最初のマスはクイズ
         event[2] = new Typing();          //最初のマスはクイズ
         event[3] = new Typing();          //最初のマスはクイズ
-        event[4] = new Typing();          //最初のマスはクイズ
-        event[5] = new Typing();          //最初のマスはクイズ
-        event[6] = new Typing();          //最初のマスはクイズ
+        event[4] = new Quiz();          //最初のマスはクイズ
+        event[5] = new Quiz();          //最初のマスはクイズ
+        event[6] = new Quiz();          //最初のマスはクイズ
         event[event.length-1] = new Graduate(); //最後のマスは卒業式？
 
         //各マスにランダムにイベントを配置

@@ -213,7 +213,8 @@ class Game{
 
         eventFrame.setResizable(false);
         JPanel eventPanel = board.event[players[playingPlayer].getPosition()].getPane(); //最初のイベントパネルを取得
-        board.event[players[playingPlayer].getPosition()].run(players[playingPlayer]); //プレイヤーをイベントに設定
+        int playerPosition = players[playingPlayer].getPosition();  //プレイヤーの位置を取得
+        board.event[playerPosition>=board.event.length ? board.event.length-1 : playerPosition].run(players[playingPlayer]); //プレイヤーをイベントに設定
         eventFrame.add(eventPanel);
         eventFrame.setVisible(true);
     }
