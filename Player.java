@@ -6,6 +6,7 @@ class Player {
     private int position;
     private int credit;
     private int money;
+    private boolean graduate = false; // プレイヤーの卒業状態
     private boolean isTutorial = false; // チュートリアルフラグ
 
     Player(String name) {
@@ -32,6 +33,10 @@ class Player {
 
     public int getMoney() {
         return money;
+    }
+
+    public boolean isGraduate() {
+        return graduate;
     }
 
     public boolean getIsTutorial() {

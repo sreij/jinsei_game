@@ -193,29 +193,36 @@ class Game{
         eventFrame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
-                setIsEvent(false);
-                // 次のプレイヤーへ
-                playingPlayer = (playingPlayer + 1) % players.length;
-                rollResult = 0;
-                rollDise.setEnabled(true); // さいころを振るボタンを再度有効化
-                display();
+                close();
             }
             @Override
             public void windowClosing(java.awt.event.WindowEvent e) {
+                close();
+            }
+            // イベントの終了処理
+            private void close(){
                 setIsEvent(false);
+                if(players[0].isGraduate() && players[1].isGraduate() && players[2].isGraduate() && players[3].isGraduate()) {
+                    // 全てのプレイヤーが卒業した場合、ゲーム終了
+                    JOptionPane.showMessageDialog(frame, String.format("<html>全員卒業おめでとう！<br>タイトル画面に戻ります。</html>"));
+                    section = 0; // タイトル画面に戻る
+                    display();
+                    return;
+                }
                 // 次のプレイヤーへ
                 playingPlayer = (playingPlayer + 1) % players.length;
-                rollResult = 0; 
+                while (players[playingPlayer].isGraduate()) {
+                    playingPlayer = (playingPlayer + 1) % players.length; // 生存しているプレイヤーを探す
+                }
+                rollResult = 0;
                 rollDise.setEnabled(true); // さいころを振るボタンを再度有効化
                 display();
             }
         });
 
-        eventFrame.setResizable(false);
-        JPanel eventPanel = board.event[players[playingPlayer].getPosition()].getPane(); //最初のイベントパネルを取得
         int playerPosition = players[playingPlayer].getPosition();  //プレイヤーの位置を取得
         board.event[playerPosition>=board.event.length ? board.event.length-1 : playerPosition].run(players[playingPlayer]); //プレイヤーをイベントに設定
-        eventFrame.add(eventPanel);
+        eventFrame.add(board.event[players[playingPlayer].getPosition()].getPane()); //最初のイベントパネルを取得して追加
         eventFrame.setVisible(true);
     }
 

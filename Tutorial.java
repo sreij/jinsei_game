@@ -3,7 +3,6 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 class Tutorial extends Event{
-    private final String startText = String.format("<html>ゲームスタート！ようこそ！<br>まずは名前を変更しましょう！名前の変更をしたら、「決定」ボタンを押してください！</html>");
     private final String explainText  = String.format("<html><h2>ゲームの進め方</h2><br>1. サイコロを振って、出た目の数だけ盤面を進みます。<br>2. 盤面上のイベントに応じて、クイズやタイピングなどのミニゲームが発生します。<br>3. ミニゲームをクリアすると、単位やお金がもらえます。<br>4. 単位を集めて卒業を目指しましょう！<br>ミニゲームが終わったら、Windowを閉じてください！<br><br>まずは名前を変更しましょう！<br>変更ができたら「決定」ボタンを押してください！</html>");
 
     Tutorial(){
