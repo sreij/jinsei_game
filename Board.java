@@ -10,18 +10,19 @@ class Board{
         event = new Event[num_event];   //イベント数確定
         event[0] = new Tutorial();      //最初のマスはチュートリアル
         
-        event[1] = new Typing();          //最初のマスはクイズ
-        event[2] = new Typing();          //最初のマスはクイズ
-        event[3] = new Typing();          //最初のマスはクイズ
-        event[4] = new Quiz();          //最初のマスはクイズ
-        event[5] = new Quiz();          //最初のマスはクイズ
-        event[6] = new Quiz();          //最初のマスはクイズ
-        event[event.length-1] = new Graduate(); //最後のマスは卒業式？
+        // 特定のマスにイベントを固定で配置する場合
+        event[1] = new Typing();
+        event[2] = new LabVisitEvent();
+        event[3] = new Quiz();
+        event[4] = new InternshipEvent();
+        event[5] = new GameNightEvent();
+        event[6] = new Daily();
+        event[event.length-1] = new Graduate(); //最後のマスは卒業式
 
-        //各マスにランダムにイベントを配置
+        // ▼▼▼【ここから修正】▼▼▼
+        // 各マスにランダムにイベントを配置
         for(int i = 7; i < event.length-1; i++){
-            int num = Dise.roll(3);
-            //System.out.println(num);
+            int num = Dise.roll(6); // 6面ダイスに変更
             switch (num) {
                 case 1:
                     event[i] = new Quiz();
@@ -32,10 +33,20 @@ class Board{
                 case 3:
                     event[i] = new Daily();
                     break;
+                case 4:
+                    event[i] = new LabVisitEvent(); // 追加
+                    break;
+                case 5:
+                    event[i] = new InternshipEvent(); // 追加
+                    break;
+                case 6:
+                    event[i] = new GameNightEvent(); // 追加
+                    break;
                 default:
                     throw new AssertionError();
             }
         }
+        // ▲▲▲【ここまで修正】▲▲▲
 
         //log
         System.out.println("complete initialize Board");

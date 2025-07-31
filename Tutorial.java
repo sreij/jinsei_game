@@ -46,6 +46,7 @@ class Tutorial extends Event{
         eventPanel.add(inputField);
         eventPanel.add(submitButton);
         eventPanel.add(explainLabel);
+        eventPanel.add(backToGameButton);
         eventPanel.revalidate();
         eventPanel.repaint();
     }

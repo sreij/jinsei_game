@@ -1,6 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+//import java.awt.event.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -13,7 +13,7 @@ public class Quiz extends Event {
 
     private final QuizLogic logic = new QuizLogic();
     private Player currentPlayer;
-    
+
     // --- クイズ進行状況を管理する変数 ---
     private List<String[]> currentQuizSet;
     private int currentQuestionIndex;
@@ -36,7 +36,7 @@ public class Quiz extends Event {
         progressLabel.setFont(japaneseFont);
         progressLabel.setBounds(50, 20, 100, 30);
         eventPanel.add(progressLabel);
-        
+
         questionLabel = new JLabel("ここに問題文が表示される");
         questionLabel.setFont(japaneseFont);
         questionLabel.setBounds(50, 50, 540, 60);
@@ -53,10 +53,10 @@ public class Quiz extends Event {
             choiceButtons[i].setBounds(50, 100 + (i * 50), 500, 30);
             eventPanel.add(choiceButtons[i]);
             choiceButtons[i].addActionListener(e -> {
-                processAnswer(((JButton)e.getSource()).getText());
+                processAnswer(((JButton) e.getSource()).getText());
             });
         }
-        
+
         nextButton = new JButton("次へ");
         nextButton.setFont(japaneseFont);
         nextButton.setBounds(480, 300, 120, 30);
@@ -77,11 +77,13 @@ public class Quiz extends Event {
         this.currentQuizSet = logic.getQuizSet();
         this.currentQuestionIndex = 0;
         this.correctAnswers = 0;
-        
+
         displayQuestion();
     }
 
     private void displayQuestion() {
+        progressLabel.setVisible(true);
+        questionLabel.setVisible(true);
         setChoiceButtonsVisible(true);
         resultLabel.setVisible(false);
         nextButton.setVisible(false);
@@ -90,7 +92,7 @@ public class Quiz extends Event {
         String[] quizData = currentQuizSet.get(currentQuestionIndex);
         String question = quizData[0];
         this.correctAnswer = quizData[1];
-        
+
         List<String> choices = Arrays.asList(quizData[1], quizData[2], quizData[3]);
         Collections.shuffle(choices);
 
@@ -100,12 +102,12 @@ public class Quiz extends Event {
             choiceButtons[i].setText(choices.get(i));
         }
     }
-    
+
     private void processAnswer(String selectedAnswer) {
         setChoiceButtonsVisible(false);
         resultLabel.setVisible(true);
         nextButton.setVisible(true);
-        
+
         if (currentQuestionIndex == 4) {
             nextButton.setText("最終結果");
         }
@@ -118,7 +120,7 @@ public class Quiz extends Event {
         }
     }
 
-    private void nextStep(){
+    private void nextStep() {
         currentQuestionIndex++;
         if (currentQuestionIndex < 5) {
             displayQuestion();
@@ -134,17 +136,17 @@ public class Quiz extends Event {
         progressLabel.setVisible(false);
         resultLabel.setVisible(false);
         questionLabel.setVisible(false);
-    
+
         int credits = logic.calculateCredits(correctAnswers);
         currentPlayer.addCredit(credits);
-    
+
         // ▼▼▼【ここからが新しいコード】▼▼▼
-    
+
         if (correctAnswers == 5) {
             // --- 全問正解の場合 ---
             int bonusMoney = 10000;
             currentPlayer.addMoney(bonusMoney);
-        
+
             // 表示する文字列
             String line1Text = "🎉パーフェクト！🎉";
             String line2Text = "5問全問正解です！おめでとう！";
@@ -158,9 +160,9 @@ public class Quiz extends Event {
             // 共通のフォントと色を設定
             Font resultFont = new Font("SansSerif", Font.BOLD, 28);
             Color resultColor = new Color(255, 100, 100);
-        
+
             // ラベルのリストを作成して一括で設定
-            JLabel[] labels = {line1Label, line2Label, line3Label};
+            JLabel[] labels = { line1Label, line2Label, line3Label };
             int yPosition = 120; // 最初のラベルのY座標
             for (JLabel label : labels) {
                 label.setFont(resultFont);
@@ -178,10 +180,10 @@ public class Quiz extends Event {
 
             JLabel line1Label = new JLabel(line1Text);
             JLabel line2Label = new JLabel(line2Text);
-        
+
             Font resultFont = new Font("SansSerif", Font.BOLD, 24);
-        
-            JLabel[] labels = {line1Label, line2Label};
+
+            JLabel[] labels = { line1Label, line2Label };
             int yPosition = 150;
             for (JLabel label : labels) {
                 label.setFont(resultFont);
@@ -199,19 +201,17 @@ public class Quiz extends Event {
         eventPanel.add(backToGameButton);
 
         backToGameButton.addActionListener(e -> {
-            Window window = SwingUtilities.getWindowAncestor((Component)e.getSource());
+            Window window = SwingUtilities.getWindowAncestor((Component) e.getSource());
             window.dispose();
         });
-    
+
         // パネルを再描画
         eventPanel.revalidate();
         eventPanel.repaint();
     }
 
-    
-    
-    private void setChoiceButtonsVisible(boolean visible){
-        for(JButton button : choiceButtons){
+    private void setChoiceButtonsVisible(boolean visible) {
+        for (JButton button : choiceButtons) {
             button.setVisible(visible);
         }
     }
