@@ -24,7 +24,7 @@ class Board{
         // ▼▼▼【ここから修正】▼▼▼
         // 各マスにランダムにイベントを配置
         for(int i = 1; i < event.length-1; i++){
-            int num = Dise.roll(6); // 6面ダイスに変更
+            int num = Dice.roll(6); // 6面ダイスに変更
             switch (num) {
                 case 1:
                     event[i] = new Quiz();

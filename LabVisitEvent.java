@@ -1,5 +1,5 @@
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 public class LabVisitEvent extends Event {
 
@@ -51,7 +51,7 @@ public class LabVisitEvent extends Event {
     private void handleChoice(boolean accepted) {
         String resultMessage;
         if (accepted) {
-            int roll = Dise.roll(2); // 1か2の乱数
+            int roll = Dice.roll(2); // 1か2の乱数
             if (roll == 1) { // 成功
                 resultMessage = "<html><center>研究室は良い雰囲気だった！<br>有益な話が聞けて、4単位獲得！</center></html>";
                 currentPlayer.addCredit(4);

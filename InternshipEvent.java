@@ -1,5 +1,5 @@
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 public class InternshipEvent extends Event {
 
@@ -51,7 +51,7 @@ public class InternshipEvent extends Event {
     private void handleChoice(boolean accepted) {
         String resultMessage;
         if (accepted) {
-            int roll = Dise.roll(2); // 1か2の乱数
+            int roll = Dice.roll(2); // 1か2の乱数
             if (roll == 1) { // 成功
                 resultMessage = "<html><center>社員と仲良くなれた！<br>コネができて、10000円獲得！</center></html>";
                 currentPlayer.addMoney(10000);

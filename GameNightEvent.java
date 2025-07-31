@@ -1,5 +1,5 @@
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 public class GameNightEvent extends Event {
 
@@ -51,7 +51,7 @@ public class GameNightEvent extends Event {
     private void handleChoice(boolean accepted) {
         String resultMessage;
         if (accepted) {
-            int roll = Dise.roll(2); // 1か2の乱数
+            int roll = Dice.roll(2); // 1か2の乱数
             if (roll == 1) { // 成功
                 resultMessage = "<html><center>最高の夜だった！ストレスが解消され、<br>今後の勉強の効率が上がるだろう。1単位獲得！</center></html>";
                 currentPlayer.addCredit(1);

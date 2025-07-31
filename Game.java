@@ -210,10 +210,10 @@ class Game {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!isEvent) {
-                    rollResult = Dise.roll();
+                    rollResult = Dice.roll();
                     roll.setText(rollResult + "");
                     rollDise.setEnabled(false);
-                    players[playingPlayer].addMoney(Dise.ROLL_COST);    // サイコロを振るためのコストを支払う
+                    players[playingPlayer].addMoney(Dice.ROLL_COST);    // サイコロを振るためのコストを支払う
                     setIsEvent(true);
 
                     players[playingPlayer].move(rollResult); // プレイヤーの位置を更新

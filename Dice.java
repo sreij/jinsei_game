@@ -2,7 +2,7 @@ import java.util.Random;
 
 //サイコロのクラス
 //やっていることは乱数を返すだけ
-class Dise{
+class Dice{
     static final int ROLL_COST=-1000;
     private static final Random rand = new Random();
     

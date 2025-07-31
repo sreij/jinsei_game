@@ -14,12 +14,12 @@ class Daily extends Event{
         result.setBounds(50, 50, 500, 30);
         eventPanel.add(result);
         
-        if(Dise.roll(3) >= 2){
+        if(Dice.roll(3) >= 2){
             player.addMoney(1000);
-            result.setText(String.format("デイリーボーナス！%d円獲得！", moneys[Dise.roll(5)-1]));
+            result.setText(String.format("デイリーボーナス！%d円獲得！", moneys[Dice.roll(5)-1]));
         }else{
             player.addMoney(-1000);
-            result.setText(String.format("今日は運が悪い！%d円失った...", -moneys[Dise.roll(5)-1]));
+            result.setText(String.format("今日は運が悪い！%d円失った...", -moneys[Dice.roll(5)-1]));
         }
     }
 }

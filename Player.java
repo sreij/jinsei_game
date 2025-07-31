@@ -46,12 +46,13 @@ class Player {
         this.graduate = graduate;
     }
     
-    // ▼▼▼【ここから追記】▼▼▼
+    /*
+     * セッターメソッド
+     */
     // プレイヤーの位置を直接設定するメソッド
     public void setPosition(int position) {
         this.position = position;
     }
-    // ▲▲▲【ここまで追記】▲▲▲
 
     //盤面移動
     public void move(int step) {
@@ -68,10 +69,12 @@ class Player {
         this.money += money;
     }
 
+    //チュートリアル実施状況の更新
     public void tutorialed() {
         isTutorial = true; // チュートリアルを受けたフラグを立てる
     }
 
+    //名前の変更
     public void changeName(String newName) {
         this.name = newName; // プレイヤーの名前を変更
     }
