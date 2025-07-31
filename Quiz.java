@@ -28,7 +28,7 @@ public class Quiz extends Event {
     private JButton nextButton;
 
     Quiz() {
-        super("3択クイズチャレンジ");
+        super("クイズチャレンジ");
 
         Font japaneseFont = new Font("SansSerif", Font.PLAIN, 14);
 
@@ -37,12 +37,12 @@ public class Quiz extends Event {
         progressLabel.setBounds(50, 20, 100, 30);
         eventPanel.add(progressLabel);
         
-        questionLabel = new JLabel("ここに問題文が表示されます");
+        questionLabel = new JLabel("ここに問題文が表示される");
         questionLabel.setFont(japaneseFont);
         questionLabel.setBounds(50, 50, 540, 60);
         eventPanel.add(questionLabel);
 
-        resultLabel = new JLabel("ここに正解・不正解が表示されます");
+        resultLabel = new JLabel("ここに正解・不正解が表示される");
         resultLabel.setFont(japaneseFont);
         resultLabel.setBounds(50, 250, 500, 30);
         eventPanel.add(resultLabel);
@@ -66,6 +66,13 @@ public class Quiz extends Event {
 
     @Override
     public void execute(Player player) {
+        eventPanel.add(progressLabel);
+        eventPanel.add(questionLabel);
+        eventPanel.add(resultLabel);
+        for (JButton button : choiceButtons) {
+            eventPanel.add(button);
+        }
+        eventPanel.add(nextButton);
         this.currentPlayer = player;
         this.currentQuizSet = logic.getQuizSet();
         this.currentQuestionIndex = 0;
@@ -100,7 +107,7 @@ public class Quiz extends Event {
         nextButton.setVisible(true);
         
         if (currentQuestionIndex == 4) {
-            nextButton.setText("最終結果を見る");
+            nextButton.setText("最終結果");
         }
 
         if (logic.checkAnswer(selectedAnswer, this.correctAnswer)) {
@@ -121,35 +128,69 @@ public class Quiz extends Event {
     }
 
     private void showFinalResult() {
+        // 既存のコンポーネントを非表示にする
         setChoiceButtonsVisible(false);
         nextButton.setVisible(false);
         progressLabel.setVisible(false);
         resultLabel.setVisible(false);
         questionLabel.setVisible(false);
-        
+    
         int credits = logic.calculateCredits(correctAnswers);
         currentPlayer.addCredit(credits);
-        
-        JLabel finalResultLabel = new JLabel();
-        
+    
+        // ▼▼▼【ここからが新しいコード】▼▼▼
+    
         if (correctAnswers == 5) {
-            // ★★★ ここからが修正点 ★★★
-            // 全問正解の場合の特別な演出
+            // --- 全問正解の場合 ---
             int bonusMoney = 10000;
-            currentPlayer.addMoney(bonusMoney); // ボーナス賞金を追加
-            
-            finalResultLabel.setText(String.format("<html><div style='text-align: center;'>🎉パーフェクト！🎉<br>5問全問正解です！<br>%d単位とボーナス%d円獲得！</div></html>", credits, bonusMoney));
-            finalResultLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
-            finalResultLabel.setForeground(new Color(255, 100, 100));
-        } else {
-            // 通常の結果表示
-            finalResultLabel.setText(String.format("<html><div style='text-align: center;'>最終結果: 5問中 %d問正解！<br>%d単位獲得しました！</div></html>", correctAnswers, credits));
-            finalResultLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
-        }
+            currentPlayer.addMoney(bonusMoney);
         
-        finalResultLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        finalResultLabel.setBounds(0, 150, 640, 100);
-        eventPanel.add(finalResultLabel);
+            // 表示する文字列
+            String line1Text = "🎉パーフェクト！🎉";
+            String line2Text = "5問全問正解です！おめでとう！";
+            String line3Text = String.format("%d単位とボーナス%d円獲得！", credits, bonusMoney);
+
+            // 各行を別々のJLabelで作成
+            JLabel line1Label = new JLabel(line1Text);
+            JLabel line2Label = new JLabel(line2Text);
+            JLabel line3Label = new JLabel(line3Text);
+
+            // 共通のフォントと色を設定
+            Font resultFont = new Font("SansSerif", Font.BOLD, 28);
+            Color resultColor = new Color(255, 100, 100);
+        
+            // ラベルのリストを作成して一括で設定
+            JLabel[] labels = {line1Label, line2Label, line3Label};
+            int yPosition = 120; // 最初のラベルのY座標
+            for (JLabel label : labels) {
+                label.setFont(resultFont);
+                label.setForeground(resultColor);
+                label.setHorizontalAlignment(SwingConstants.CENTER);
+                label.setBounds(0, yPosition, 640, 40); // Y座標と高さを設定
+                eventPanel.add(label);
+                yPosition += 40; // 次のラベルのためにY座標をずらす
+            }
+
+        } else {
+            // --- 通常の結果表示の場合 ---
+            String line1Text = String.format("最終結果: 5問中 %d問正解！", correctAnswers);
+            String line2Text = String.format("%d単位獲得しました！", credits);
+
+            JLabel line1Label = new JLabel(line1Text);
+            JLabel line2Label = new JLabel(line2Text);
+        
+            Font resultFont = new Font("SansSerif", Font.BOLD, 24);
+        
+            JLabel[] labels = {line1Label, line2Label};
+            int yPosition = 150;
+            for (JLabel label : labels) {
+                label.setFont(resultFont);
+                label.setHorizontalAlignment(SwingConstants.CENTER);
+                label.setBounds(0, yPosition, 640, 40);
+                eventPanel.add(label);
+                yPosition += 40;
+            }
+        }
 
         // ゲームに戻るためのボタンを追加
         JButton backToGameButton = new JButton("ゲームに戻る");
@@ -161,7 +202,13 @@ public class Quiz extends Event {
             Window window = SwingUtilities.getWindowAncestor((Component)e.getSource());
             window.dispose();
         });
+    
+        // パネルを再描画
+        eventPanel.revalidate();
+        eventPanel.repaint();
     }
+
+    
     
     private void setChoiceButtonsVisible(boolean visible){
         for(JButton button : choiceButtons){
