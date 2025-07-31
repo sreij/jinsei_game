@@ -1,9 +1,9 @@
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import javax.swing.*;
 
 //タイピングミニゲーム実装
 public class Typing extends Event {
@@ -114,6 +114,7 @@ public class Typing extends Event {
                 gameActive = false;
                 timer.stop();
                 inputField.setEnabled(false);
+                eventPanel.add(backToGameButton); // ゲームが終わったら「ゲームに戻る」
             }
         });
 
