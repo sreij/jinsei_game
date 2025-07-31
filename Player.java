@@ -1,5 +1,3 @@
-//プレイヤーを管理するクラス
-//プレイヤーに関する情報を保持
 class Player {
 
     private String name;
@@ -43,6 +41,18 @@ class Player {
         return isTutorial;
     }
 
+    // プレイヤーの卒業状態を設定するメソッド
+    public void setGraduate(boolean graduate) {
+        this.graduate = graduate;
+    }
+    
+    // ▼▼▼【ここから追記】▼▼▼
+    // プレイヤーの位置を直接設定するメソッド
+    public void setPosition(int position) {
+        this.position = position;
+    }
+    // ▲▲▲【ここまで追記】▲▲▲
+
     //盤面移動
     public void move(int step) {
         position += step;
@@ -64,19 +74,11 @@ class Player {
 
     public void changeName(String newName) {
         this.name = newName; // プレイヤーの名前を変更
-    }   
+    }
 
-    //プレイヤーの状態を表示
-    /*
-     * 名前（太字）
-     * 位置: ?
-     * 単位: ?
-     * 所持金: ?
-     */
     @Override
     public String toString() {
         return String.format("<html><b>%s</b><br>位置: %d<br>単位: %d<br>所持金: %d円</html>",
                 name, position, credit, money);
     }
-
 }
