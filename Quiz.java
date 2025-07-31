@@ -1,9 +1,8 @@
-import javax.swing.*;
 import java.awt.*;
-//import java.awt.event.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import javax.swing.*;
 
 /**
  * 3択形式で一問ごとに結果を表示するクイズイベントのクラス。
@@ -194,6 +193,7 @@ public class Quiz extends Event {
             }
         }
 
+        /*
         // ゲームに戻るためのボタンを追加
         JButton backToGameButton = new JButton("ゲームに戻る");
         backToGameButton.setFont(new Font("SansSerif", Font.PLAIN, 14));
@@ -204,6 +204,8 @@ public class Quiz extends Event {
             Window window = SwingUtilities.getWindowAncestor((Component) e.getSource());
             window.dispose();
         });
+        */
+        eventPanel.add(backToGameButton);
 
         // パネルを再描画
         eventPanel.revalidate();
