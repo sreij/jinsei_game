@@ -10,6 +10,7 @@ class Board{
         event = new Event[num_event];   //イベント数確定
         event[0] = new Tutorial();      //最初のマスはチュートリアル
         
+        /*
         // 特定のマスにイベントを固定で配置する場合
         event[1] = new Typing();
         event[2] = new LabVisitEvent();
@@ -17,11 +18,12 @@ class Board{
         event[4] = new InternshipEvent();
         event[5] = new GameNightEvent();
         event[6] = new Daily();
+        */
         event[event.length-1] = new Graduate(); //最後のマスは卒業式
 
         // ▼▼▼【ここから修正】▼▼▼
         // 各マスにランダムにイベントを配置
-        for(int i = 7; i < event.length-1; i++){
+        for(int i = 1; i < event.length-1; i++){
             int num = Dise.roll(6); // 6面ダイスに変更
             switch (num) {
                 case 1:
