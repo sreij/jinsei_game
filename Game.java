@@ -9,12 +9,12 @@ import javax.swing.*;
  *Playerオブジェクトとボードオブジェクトを管理する。
  */
 class Game {
-    private JFrame frame;
-    private JPanel panel;
-    private Player players[];
-    private Board board;
-    private int playerNum = 4;
-    private int trout = 100;
+    private final JFrame frame;
+    private final JPanel panel;
+    private final Player players[];
+    private final Board board;
+    private final int playerNum = 4;
+    private final int trout = 100;
     private int playingPlayer = 0; // 現在のプレイヤーのインデックス
     private int rollResult = 0; // サイコロの目の結果
     private boolean isEvent = false; // イベントが発生しているかどうかのフラグ
@@ -29,7 +29,8 @@ class Game {
             players[i] = new Player("Player " + (i + 1));
         }
         board = new Board(trout); // ボードの初期化
-        backButton(); // backボタンの設置
+        backButton(); // backボタンの初期化
+
         panel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -40,6 +41,7 @@ class Game {
         };
         panel.setLayout(null);
 
+        //メインのウィンドウに関する設定
         frame = new JFrame(name);
         frame.setSize(1280, 720);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,6 +65,7 @@ class Game {
     }
 
     // 画面にボタンやテキストなどの要素を追加します
+    //frameではなくpanelに追加するために実装
     void add(JComponent comp) {
         panel.add(comp);
     }
@@ -76,6 +79,8 @@ class Game {
         isDrawBoard = false;
         frame.remove(panel);
         panel.removeAll();
+
+        //sectionによって、描画する内容を変更します
         switch (section) {
             case 0:
                 start();
@@ -160,6 +165,7 @@ class Game {
     void run() {
         isDrawBoard = true;
 
+        // ボードの描画(イベント名の表示)
         for (int i = -2; i <= 2; i++) {
             JLabel eventLabel;
             if (players[playingPlayer].getPosition() + i < 0
@@ -177,6 +183,7 @@ class Game {
             add(eventLabel);
         }
 
+        //プレイヤーステータスの表示
         for (int i = 0; i < players.length; i++) {
             JLabel playerLabel = new JLabel(players[i].toString());
             playerLabel.setBounds(10 + i * (1280 / 4), 360, 250, 240);
@@ -185,14 +192,18 @@ class Game {
             add(playerLabel);
         }
 
+        //現在のプレイヤーの表示
         JLabel turnLabel = new JLabel("現在のプレイヤー: " + players[playingPlayer].getName());
         turnLabel.setBounds(400, 40, 400, 50);
         turnLabel.setFont(turnLabel.getFont().deriveFont(24f));
         add(turnLabel);
 
+        //サイコロ関連
+        //サイコロの出た目を表示
         JLabel roll = new JLabel(rollResult + "");
         roll.setBounds(480, 620, 100, 50);
 
+        //サイコロを回すボタン
         JButton rollDise = new JButton("さいころを転がす");
         rollDise.setEnabled(true);
         rollDise.addActionListener(new ActionListener() {
@@ -202,17 +213,15 @@ class Game {
                     rollResult = Dise.roll();
                     roll.setText(rollResult + "");
                     rollDise.setEnabled(false);
-                    players[playingPlayer].addMoney(Dise.ROLL_COST);
+                    players[playingPlayer].addMoney(Dise.ROLL_COST);    // サイコロを振るためのコストを支払う
                     setIsEvent(true);
 
-                    // ▼▼▼【ここから修正】▼▼▼
                     players[playingPlayer].move(rollResult); // プレイヤーの位置を更新
 
                     // ゴールマスを超えた場合の処理
-                    if (players[playingPlayer].getPosition() >= trout - 1) {
+                    if (players[playingPlayer].getPosition() >= trout) {
                         players[playingPlayer].setPosition(trout - 1); // 最終マスに固定
                     }
-                    // ▲▲▲【ここまで修正】▲▲▲
 
                     runEvent(rollDise);
                 }
@@ -230,7 +239,7 @@ class Game {
 
     // ボードの描画
     void drawBoard(Graphics g) {
-        g.setColor(Color.BLACK);
+        g.setColor(Color.BLACK);    // 線の色を黒に設定
         int w = panel.getWidth();
         int h = panel.getHeight();
         g.drawLine(0, h / 4, w, h / 4);
@@ -263,7 +272,6 @@ class Game {
             private void close() {
                 setIsEvent(false);
 
-                // ▼▼▼【ここから修正】▼▼▼
                 // 全員がゴールしたかチェック
                 boolean allPlayersFinished = true;
                 for (Player p : players) {
@@ -273,9 +281,9 @@ class Game {
                     }
                 }
 
+                // 全員がゴールした場合の処理
                 if (allPlayersFinished) {
                     JOptionPane.showMessageDialog(frame, String.format("<html>全員ゴールしました！<br>タイトル画面に戻ります。</html>"));
-                    // ここでゲームをリセットする処理を追加することも可能
                     section = 0;
                     display();
                     return;
@@ -285,7 +293,6 @@ class Game {
                 do {
                     playingPlayer = (playingPlayer + 1) % players.length;
                 } while (players[playingPlayer].isGraduate());
-                // ▲▲▲【ここまで修正】▲▲▲
 
                 rollResult = 0;
                 rollDise.setEnabled(true);
